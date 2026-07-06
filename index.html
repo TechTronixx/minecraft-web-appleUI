@@ -1,0 +1,2160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Minecraft: Java Edition — the original sandbox game for Windows, macOS, and Linux. Build, explore, and survive in infinite blocky worlds. Buy once, own forever."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><rect width='8' height='8' fill='%235fa53f'/><rect x='1' y='2' width='2' height='2' fill='%23111'/><rect x='5' y='2' width='2' height='2' fill='%23111'/><rect x='3' y='4' width='2' height='2' fill='%23111'/></svg>"
+    />
+    <title>Minecraft Java Edition</title>
+    <style>
+      @font-face {
+        font-family: 'Minecraft';
+        src: url('https://db.onlinewebfonts.com/t/bf3f245b7cd53caea0cb07d265a64adc.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --blue: #0066cc;
+        --blue-dark-bg: #2997ff;
+        --btn: #0071e3;
+        --ink: #1d1d1f;
+        --gray: #6e6e73;
+        --gray-2: #86868b;
+        --tile-light: #fbfbfd;
+        --tile-gray: #f5f5f7;
+        --tile-dark: #000;
+        --gap: 12px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+          "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #fff;
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        overflow-x: hidden;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--btn);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+      button {
+        font: inherit;
+      }
+
+      /* ---------- Nav ---------- */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        height: 44px;
+        background: rgba(251, 251, 253, 0.8);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+      .nav-inner {
+        max-width: 1024px;
+        margin: 0 auto;
+        height: 100%;
+        padding: 0 22px;
+      }
+      .nav-inner ul {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        list-style: none;
+        justify-content: space-between;
+      }
+      .nav-inner a {
+        font-size: 12px;
+        letter-spacing: -0.01em;
+        color: rgba(0, 0, 0, 0.8);
+        transition: color 0.2s;
+        display: block;
+      }
+      .nav-inner a:hover {
+        color: #000;
+      }
+      .nav-logo svg,
+      .nav-icon svg {
+        display: block;
+        width: 17px;
+        height: 17px;
+      }
+      .nav-icon svg {
+        width: 15px;
+        height: 15px;
+        opacity: 0.85;
+      }
+
+      /* ---------- Ribbon ---------- */
+      .ribbon {
+        background: var(--tile-gray);
+        text-align: center;
+        padding: 14px 22px;
+        font-size: 14px;
+      }
+      .ribbon a {
+        color: var(--blue);
+      }
+      .ribbon a:hover {
+        text-decoration: underline;
+      }
+
+      /* ---------- Shared tile styles ---------- */
+      .tile {
+        text-align: center;
+        overflow: hidden;
+        margin-bottom: var(--gap);
+      }
+      .tile-inner {
+        padding: 58px 22px 0;
+      }
+      .eyebrow {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--gray-2);
+        margin-bottom: 8px;
+      }
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.015em;
+      }
+      .headline {
+        font-size: clamp(40px, 6.5vw, 72px);
+        font-weight: 600;
+        line-height: 1.05;
+      }
+      .subhead {
+        font-size: clamp(19px, 2.6vw, 28px);
+        font-weight: 400;
+        line-height: 1.2;
+        margin-top: 8px;
+      }
+      .cta-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 28px;
+        margin-top: 18px;
+        flex-wrap: wrap;
+      }
+      .link {
+        font-size: clamp(17px, 2vw, 21px);
+        color: var(--blue);
+      }
+      .link::after {
+        content: "\00a0\203A";
+      }
+      .link:hover {
+        text-decoration: underline;
+      }
+      .btn {
+        display: inline-block;
+        background: var(--btn);
+        color: #fff;
+        font-size: 17px;
+        padding: 11px 22px;
+        border-radius: 980px;
+        border: none;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: #0077ed;
+      }
+      .fine {
+        margin-top: 14px;
+        font-size: 14px;
+        color: var(--gray-2);
+      }
+
+      .dark {
+        background: var(--tile-dark);
+        color: #f5f5f7;
+      }
+      .dark .subhead {
+        color: #f5f5f7;
+      }
+      .dark .link {
+        color: var(--blue-dark-bg);
+      }
+      .light {
+        background: var(--tile-light);
+      }
+      .gray {
+        background: var(--tile-gray);
+      }
+
+      .hero .headline {
+        font-size: clamp(48px, 8vw, 96px);
+      }
+      .hero .subhead,
+      .light .subhead.muted,
+      .gray .subhead {
+        color: var(--gray);
+      }
+
+      /* ---------- 3D cubes ---------- */
+      .stage {
+        height: clamp(340px, 44vw, 520px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        perspective: 1600px;
+        position: relative;
+        touch-action: pan-y;
+      }
+      .stage.grabbable {
+        cursor: grab;
+      }
+      .stage.grabbing {
+        cursor: grabbing;
+      }
+      .cube {
+        --size: clamp(150px, 22vw, 230px);
+        width: var(--size);
+        height: var(--size);
+        position: relative;
+        transform-style: preserve-3d;
+      }
+      .cube.mini {
+        --size: 96px;
+      }
+      .cube .face {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        backface-visibility: hidden;
+      }
+      .f-front {
+        transform: translateZ(calc(var(--size) / 2));
+      }
+      .f-back {
+        transform: rotateY(180deg) translateZ(calc(var(--size) / 2));
+      }
+      .f-right {
+        transform: rotateY(90deg) translateZ(calc(var(--size) / 2));
+      }
+      .f-left {
+        transform: rotateY(-90deg) translateZ(calc(var(--size) / 2));
+      }
+      .f-top {
+        transform: rotateX(90deg) translateZ(calc(var(--size) / 2));
+      }
+      .f-bottom {
+        transform: rotateX(-90deg) translateZ(calc(var(--size) / 2));
+      }
+
+      .cube .face div {
+        background: var(--off, transparent);
+      }
+      .cube.lit .face div {
+        background: var(--on, var(--off));
+      }
+      .cube.lamp {
+        transition: filter 0.35s ease;
+      }
+      .cube.lamp.lit {
+        filter: drop-shadow(0 0 46px rgba(255, 170, 40, 0.85))
+          drop-shadow(0 0 120px rgba(255, 140, 20, 0.4));
+      }
+
+      .tnt-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: calc(var(--size) * 0.19);
+        letter-spacing: 0.06em;
+        color: #404040;
+        font-family: 'Minecraft', 'Courier New', monospace;
+        -webkit-text-stroke: 0;
+        image-rendering: pixelated;
+        pointer-events: none;
+      }
+
+      .cube-shadow {
+        position: absolute;
+        left: 50%;
+        bottom: clamp(14px, 4vw, 40px);
+        width: clamp(190px, 28vw, 300px);
+        height: 34px;
+        transform: translateX(-50%);
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0.18),
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .dark .cube-shadow {
+        background: radial-gradient(
+          ellipse at center,
+          rgba(255, 255, 255, 0.1),
+          transparent 70%
+        );
+      }
+
+      .hint {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin: 0 auto 40px;
+        padding: 8px 16px;
+        border-radius: 980px;
+        font-size: 13px;
+        color: var(--gray);
+        background: rgba(0, 0, 0, 0.05);
+      }
+      .dark .hint {
+        background: rgba(255, 255, 255, 0.12);
+        color: #d5d5da;
+      }
+      .hint svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      @keyframes bob {
+        0%,
+        100% {
+          translate: 0 0;
+        }
+        50% {
+          translate: 0 -12px;
+        }
+      }
+      .bobber {
+        animation: bob 6s ease-in-out infinite;
+        transform-style: preserve-3d;
+      }
+
+      .flash {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .particle {
+        position: absolute;
+        pointer-events: none;
+        will-change: transform, opacity;
+      }
+
+      /* ---------- Card grid ---------- */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+        padding: 0 var(--gap);
+        margin-bottom: var(--gap);
+      }
+      .card {
+        text-align: center;
+        padding: 56px 30px 64px;
+        min-height: 480px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .card h3 {
+        font-size: clamp(28px, 3.4vw, 40px);
+        font-weight: 600;
+      }
+      .card .subhead {
+        font-size: clamp(17px, 2vw, 21px);
+      }
+      .card .cta-row {
+        margin-top: 14px;
+      }
+      .card .card-art {
+        margin-top: auto;
+        padding-top: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        perspective: 900px;
+      }
+      .card .cube {
+        cursor: grab;
+      }
+      .pixel-icon {
+        display: block;
+      }
+
+      /* ---------- Carousel sections ---------- */
+      .shelf {
+        padding: 80px 0 64px;
+        margin-bottom: var(--gap);
+        overflow: hidden;
+      }
+      .shelf-head {
+        max-width: 1024px;
+        margin: 0 auto 34px;
+        padding: 0 22px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .shelf-head h2 {
+        font-size: clamp(28px, 4vw, 48px);
+        font-weight: 600;
+      }
+      .shelf-head p {
+        color: var(--gray-2);
+        font-size: clamp(16px, 2vw, 21px);
+        margin-top: 6px;
+      }
+
+      .track {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 6px calc(max(22px, (100vw - 1024px) / 2)) 22px;
+        scrollbar-width: none;
+      }
+      .track::-webkit-scrollbar {
+        display: none;
+      }
+
+      .world-card {
+        position: relative;
+        flex: 0 0 min(78vw, 400px);
+        height: 500px;
+        border-radius: 0;
+        overflow: hidden;
+        scroll-snap-align: center;
+        text-align: left;
+        color: #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        transition: transform 0.4s ease;
+      }
+      .world-card:hover {
+        transform: scale(1.015);
+      }
+      .world-card svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .world-card .meta {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 90px 26px 26px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent);
+      }
+      .world-card .meta .eyebrow {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+      .world-card .meta h3 {
+        font-size: 27px;
+        font-weight: 600;
+      }
+      .world-card .meta p {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.82);
+        margin-top: 4px;
+      }
+
+      .play-card {
+        position: relative;
+        flex: 0 0 min(66vw, 306px);
+        height: 190px;
+        border-radius: 0;
+        overflow: hidden;
+        scroll-snap-align: center;
+        text-align: left;
+        padding: 20px 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        transition: transform 0.4s ease;
+      }
+      .play-card:hover {
+        transform: scale(1.02);
+      }
+      .masonry-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 240px 160px;
+        gap: 16px;
+        flex: 0 0 min(85vw, 680px);
+        scroll-snap-align: center;
+      }
+      .masonry-group .play-card {
+        flex: auto;
+        height: 100%;
+        scroll-snap-align: none;
+      }
+      .play-card.large {
+        grid-column: span 2;
+        grid-row: 1;
+      }
+      .play-card.large h3 {
+        font-size: 26px;
+      }
+      .play-card.small {
+        grid-column: span 1;
+        grid-row: 2;
+      }
+      @media (max-width: 734px) {
+        .masonry-group {
+          grid-template-rows: 200px 140px;
+          gap: 12px;
+          flex: 0 0 min(90vw, 400px);
+        }
+      }
+      .play-card .eyebrow {
+        font-size: 11px;
+        margin-bottom: 2px;
+      }
+      .play-card h3 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .play-card p {
+        font-size: 13px;
+        opacity: 0.75;
+        margin-top: 3px;
+      }
+      .play-card .pixel-icon {
+        position: absolute;
+        top: 20px;
+        left: 22px;
+      }
+
+      .shelf-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        margin-top: 6px;
+      }
+      .dots {
+        display: flex;
+        gap: 9px;
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.35);
+        cursor: pointer;
+        padding: 0;
+      }
+      .dot.active {
+        background: #fff;
+      }
+      .on-light .dot {
+        background: rgba(0, 0, 0, 0.15);
+      }
+      .on-light .dot.active {
+        background: rgba(0, 0, 0, 0.65);
+      }
+      .arrow {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.14);
+        color: #fff;
+        font-size: 19px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+      .arrow:hover {
+        background: rgba(255, 255, 255, 0.28);
+      }
+      .shelf.on-light .arrow {
+        background: rgba(0, 0, 0, 0.07);
+        color: var(--ink);
+      }
+      .shelf.on-light .arrow:hover {
+        background: rgba(0, 0, 0, 0.14);
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        background: var(--tile-gray);
+        font-size: 12px;
+        color: var(--gray);
+        padding: 30px 22px;
+      }
+      .footer-inner {
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+      .footnotes {
+        border-bottom: 1px solid #d2d2d7;
+        padding-bottom: 16px;
+        line-height: 1.6;
+      }
+      .footnotes p {
+        margin-bottom: 6px;
+      }
+      .footer-cols {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 20px 0;
+        border-bottom: 1px solid #d2d2d7;
+        text-align: left;
+      }
+      .footer-cols h4 {
+        font-size: 12px;
+        color: var(--ink);
+        margin-bottom: 10px;
+      }
+      .footer-cols ul {
+        list-style: none;
+      }
+      .footer-cols li {
+        margin-bottom: 8px;
+      }
+      .footer-cols a {
+        color: #424245;
+      }
+      .footer-cols a:hover {
+        text-decoration: underline;
+      }
+      .footer-legal {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 16px;
+      }
+
+      /* ---------- Reveal ---------- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .bobber {
+          animation: none;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .world-card,
+        .play-card {
+          transition: none;
+        }
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
+      @media (max-width: 734px) {
+        .nav-links-mid {
+          display: none;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-cols {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .card {
+          min-height: 420px;
+        }
+        .world-card {
+          height: 430px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav aria-label="Global">
+      <div class="nav-inner">
+        <ul>
+          <li>
+            <a
+              href="#"
+              class="nav-logo"
+              aria-label="Minecraft Java Edition home"
+            >
+              <svg
+                viewBox="0 0 8 8"
+                shape-rendering="crispEdges"
+                aria-hidden="true"
+              >
+                <rect width="8" height="8" fill="#5fa53f" />
+                <rect x="0" y="0" width="2" height="1" fill="#6db54a" />
+                <rect x="5" y="0" width="2" height="2" fill="#54963a" />
+                <rect x="0" y="6" width="1" height="2" fill="#6db54a" />
+                <rect x="7" y="5" width="1" height="3" fill="#54963a" />
+                <rect x="1" y="2" width="2" height="2" fill="#111" />
+                <rect x="5" y="2" width="2" height="2" fill="#111" />
+                <rect x="3" y="4" width="2" height="2" fill="#111" />
+                <rect x="2" y="5" width="1" height="3" fill="#111" />
+                <rect x="5" y="5" width="1" height="3" fill="#111" />
+              </svg>
+            </a>
+          </li>
+          <li class="nav-links-mid"><a href="#overview">Overview</a></li>
+          <li class="nav-links-mid"><a href="#redstone">Redstone</a></li>
+          <li class="nav-links-mid"><a href="#tnt">TNT</a></li>
+          <li class="nav-links-mid"><a href="#worlds">Worlds</a></li>
+          <li class="nav-links-mid"><a href="#multiplayer">Multiplayer</a></li>
+          <li class="nav-links-mid"><a href="#mods">Mods</a></li>
+          <li class="nav-links-mid"><a href="#skins">Skins</a></li>
+          <li class="nav-links-mid"><a href="#support">Support</a></li>
+          <li class="nav-icon">
+            <a href="#" aria-label="Search">
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                aria-hidden="true"
+              >
+                <circle cx="7" cy="7" r="5" />
+                <path d="M11 11l4 4" />
+              </svg>
+            </a>
+          </li>
+          <li class="nav-icon">
+            <a href="#buy" aria-label="Shopping bag">
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.4"
+                aria-hidden="true"
+              >
+                <path d="M3.5 5.5h9l-.8 8.5h-7.4z" />
+                <path d="M5.5 5.5v-1a2.5 2.5 0 0 1 5 0v1" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="ribbon">
+      Get Minecraft: Java Edition for Windows, macOS, and Linux. One purchase.
+      Every update, forever.<sup>1</sup>
+      <a href="#buy">Shop&nbsp;&#8250;</a>
+    </div>
+
+    <!-- ---------- Hero 1: the grass block ---------- -->
+    <section class="tile light hero" id="overview">
+      <div class="tile-inner reveal">
+        <div class="eyebrow">Java Edition</div>
+        <h1 class="headline">Minecraft</h1>
+        <p class="subhead">Blocky. Beautiful. Boundless.</p>
+        <div class="cta-row">
+          <a class="btn" href="#buy" id="buy">Buy</a>
+          <a class="link" href="#">Play the demo</a>
+        </div>
+        <p class="fine">$29.99. Buy once. Own forever.</p>
+      </div>
+      <div class="reveal">
+        <div class="stage grabbable" data-drag>
+          <div class="bobber">
+            <div
+              class="cube"
+              data-cube="grass"
+              data-rx="-28"
+              data-ry="-45"
+              role="img"
+              aria-label="3D grass block. Drag to rotate."
+            ></div>
+          </div>
+          <div class="cube-shadow"></div>
+        </div>
+        <p class="hint">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path d="M2 8h12M2 8l3-3M2 8l3 3M14 8l-3-3M14 8l-3 3" />
+          </svg>
+          Drag to spin
+        </p>
+      </div>
+    </section>
+
+    <!-- ---------- Hero 2: redstone lamp ---------- -->
+    <section class="tile dark hero" id="redstone">
+      <div class="tile-inner reveal">
+        <h2 class="headline">Redstone</h2>
+        <p class="subhead">
+          It&rsquo;s basically computer science.<sup>2</sup>
+        </p>
+        <div class="cta-row">
+          <a class="link" href="#">Learn more</a>
+          <a class="link" href="#">See what players have built</a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="stage grabbable" data-drag>
+          <div class="bobber">
+            <div
+              class="cube lamp"
+              id="lamp"
+              data-cube="lamp"
+              data-rx="-24"
+              data-ry="-38"
+              role="button"
+              tabindex="0"
+              aria-pressed="false"
+              aria-label="3D redstone lamp. Tap to toggle. Drag to rotate."
+            ></div>
+          </div>
+          <div class="cube-shadow"></div>
+        </div>
+        <p class="hint">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="3" />
+            <path d="M8 1v2M8 13v2M1 8h2M13 8h2" />
+          </svg>
+          Tap the lamp
+        </p>
+      </div>
+    </section>
+
+    <!-- ---------- Hero 3: TNT ---------- -->
+    <section class="tile gray hero" id="tnt">
+      <div class="tile-inner reveal">
+        <h2 class="headline">TNT</h2>
+        <p class="subhead">Renovate. Instantly.<sup>4</sup></p>
+        <div class="cta-row">
+          <a class="link" href="#">Explore crafting</a>
+          <a class="link" href="#">Blast responsibly</a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="stage grabbable" data-drag>
+          <div class="flash" id="tnt-flash"></div>
+          <div class="bobber" id="tnt-bobber">
+            <div
+              class="cube"
+              id="tnt-cube"
+              data-cube="tnt"
+              data-rx="-28"
+              data-ry="-50"
+              role="button"
+              tabindex="0"
+              aria-label="3D TNT block. Tap to detonate. Drag to rotate."
+            ></div>
+          </div>
+          <div class="cube-shadow"></div>
+        </div>
+        <p class="hint">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path d="M8 2v4M5 3l2 3M11 3l-2 3" />
+            <rect x="4" y="7" width="8" height="7" />
+          </svg>
+          Tap. Stand back.
+        </p>
+      </div>
+    </section>
+
+    <!-- ---------- Card grid (6 promos) ---------- -->
+    <div class="grid">
+      <section class="card light reveal" id="multiplayer">
+        <div class="eyebrow">Multiplayer</div>
+        <h3>Play together.<br />From anywhere.</h3>
+        <p class="subhead">
+          Servers, LAN, and Realms. Your friends are one seed away.
+        </p>
+        <div class="cta-row"><a class="link" href="#">Learn more</a></div>
+        <div class="card-art" aria-hidden="true">
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 19 8"
+            width="152"
+            height="64"
+            shape-rendering="crispEdges"
+          >
+            <rect width="8" height="8" fill="#b07a52" />
+            <rect x="1" y="0" width="6" height="2" fill="#4a2f1d" />
+            <rect x="0" y="0" width="1" height="3" fill="#4a2f1d" />
+            <rect x="7" y="0" width="1" height="3" fill="#4a2f1d" />
+            <rect x="1" y="3" width="2" height="1" fill="#fff" />
+            <rect x="5" y="3" width="2" height="1" fill="#fff" />
+            <rect x="2" y="3" width="1" height="1" fill="#3d2fa8" />
+            <rect x="5" y="3" width="1" height="1" fill="#3d2fa8" />
+            <rect x="3" y="5" width="2" height="1" fill="#8a5a3b" />
+            <rect x="2" y="6" width="4" height="1" fill="#6e3f28" />
+            <rect x="11" y="0" width="8" height="8" fill="#e8b88f" />
+            <rect x="11" y="0" width="8" height="2" fill="#e8891d" />
+            <rect x="12" y="3" width="2" height="1" fill="#fff" />
+            <rect x="16" y="3" width="2" height="1" fill="#fff" />
+            <rect x="13" y="3" width="1" height="1" fill="#2f7a2f" />
+            <rect x="16" y="3" width="1" height="1" fill="#2f7a2f" />
+            <rect x="13" y="6" width="4" height="1" fill="#c47a54" />
+          </svg>
+        </div>
+      </section>
+
+      <section class="card dark reveal">
+        <div class="eyebrow">Hardcore Mode</div>
+        <h3>One life.<br />Make it count.</h3>
+        <p class="subhead">No respawns. No second chances. No pressure.</p>
+        <div class="cta-row"><a class="link" href="#">Learn more</a></div>
+        <div class="card-art" aria-hidden="true">
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 9 8"
+            width="108"
+            height="96"
+            shape-rendering="crispEdges"
+          >
+            <rect x="1" y="0" width="2" height="1" fill="#ff2a2a" />
+            <rect x="6" y="0" width="2" height="1" fill="#ff2a2a" />
+            <rect x="0" y="1" width="9" height="2" fill="#e01313" />
+            <rect x="1" y="1" width="1" height="1" fill="#ff8a8a" />
+            <rect x="1" y="3" width="7" height="1" fill="#c40e0e" />
+            <rect x="2" y="4" width="5" height="1" fill="#a80b0b" />
+            <rect x="3" y="5" width="3" height="1" fill="#8c0808" />
+            <rect x="4" y="6" width="1" height="1" fill="#700606" />
+          </svg>
+        </div>
+      </section>
+
+      <section class="card gray reveal" id="mods">
+        <div class="eyebrow">Mods</div>
+        <h3>Over 100,000 mods.<br />Zero limits.</h3>
+        <p class="subhead">
+          Java Edition is fully moddable. The community took it from there.<sup
+            >3</sup
+          >
+        </p>
+        <div class="cta-row"><a class="link" href="#">Browse mods</a></div>
+        <div class="card-art" data-drag aria-hidden="true">
+          <div
+            class="cube mini"
+            data-cube="amethyst"
+            data-rx="-24"
+            data-ry="-35"
+          ></div>
+          <div
+            class="cube mini"
+            data-cube="grass"
+            data-rx="-24"
+            data-ry="-55"
+          ></div>
+          <div
+            class="cube mini"
+            data-cube="gold"
+            data-rx="-24"
+            data-ry="-25"
+          ></div>
+        </div>
+      </section>
+
+      <section class="card light reveal" id="snapshots">
+        <div class="eyebrow">Snapshots</div>
+        <h3>Test tomorrow&rsquo;s<br />update. Today.</h3>
+        <p class="subhead">
+          Weekly experimental builds, exclusive to Java Edition.
+        </p>
+        <div class="cta-row">
+          <a class="link" href="#">See release notes</a>
+        </div>
+        <div class="card-art" aria-hidden="true">
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 8 8"
+            width="96"
+            height="96"
+            shape-rendering="crispEdges"
+          >
+            <rect x="1" y="0" width="6" height="8" fill="#d9c99a" />
+            <rect x="1" y="0" width="6" height="1" fill="#b5a274" />
+            <rect x="3" y="1" width="2" height="2" fill="#8a5a3b" />
+            <rect x="2" y="4" width="4" height="1" fill="#6e6e73" />
+            <rect x="2" y="6" width="3" height="1" fill="#6e6e73" />
+          </svg>
+        </div>
+      </section>
+
+      <section class="card light reveal" id="skins">
+        <div class="eyebrow">Skins</div>
+        <h3>Be anyone.<br />Even Steve.</h3>
+        <p class="subhead">
+          Every skin works in Java Edition. Give his head a spin.
+        </p>
+        <div class="cta-row"><a class="link" href="#">Change your skin</a></div>
+        <div class="card-art" data-drag aria-hidden="true">
+          <div
+            class="cube"
+            data-cube="steve"
+            data-rx="-12"
+            data-ry="-28"
+            style="--size: 130px"
+          ></div>
+        </div>
+      </section>
+
+      <section class="card dark reveal">
+        <div class="eyebrow">Realms</div>
+        <h3>Your world. Online.<br />Always.</h3>
+        <p class="subhead">
+          A private server that runs while you sleep. Your builds don&rsquo;t.
+        </p>
+        <div class="cta-row"><a class="link" href="#">Try Realms free</a></div>
+        <div class="card-art" aria-hidden="true">
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 10 8"
+            width="120"
+            height="96"
+            shape-rendering="crispEdges"
+          >
+            <rect x="1" y="2" width="8" height="5" fill="#3d7ac2" />
+            <rect x="2" y="1" width="6" height="1" fill="#3d7ac2" />
+            <rect x="3" y="3" width="2" height="2" fill="#7cbd4b" />
+            <rect x="6" y="4" width="2" height="1" fill="#7cbd4b" />
+            <rect x="2" y="5" width="1" height="1" fill="#7cbd4b" />
+            <rect x="3" y="0" width="4" height="1" fill="#5a94d4" />
+            <rect x="2" y="7" width="6" height="1" fill="#2c5c94" />
+          </svg>
+        </div>
+      </section>
+    </div>
+
+    <!-- ---------- Shelf 1: biome carousel ---------- -->
+    <section class="shelf dark" id="worlds">
+      <div class="shelf-head reveal">
+        <div>
+          <h2>Endless worlds.</h2>
+          <p>Every seed is a different planet. These are just nine of them.</p>
+        </div>
+        <a class="link" href="#">Learn about world generation</a>
+      </div>
+
+      <div
+        class="track reveal"
+        id="world-track"
+        tabindex="0"
+        aria-label="World biomes carousel"
+      >
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#79b5e8" />
+            <rect x="2" y="2" width="3" height="1" fill="#fff" opacity="0.9" />
+            <rect x="3" y="3" width="3" height="1" fill="#fff" opacity="0.7" />
+            <rect x="11" y="4" width="3" height="1" fill="#fff" opacity="0.8" />
+            <rect x="12" y="1" width="2" height="2" fill="#ffdf6b" />
+            <rect x="0" y="12" width="16" height="8" fill="#7cbd4b" />
+            <rect x="0" y="12" width="16" height="1" fill="#8ecf57" />
+            <rect x="2" y="9" width="4" height="3" fill="#6fae44" />
+            <rect x="10" y="10" width="5" height="2" fill="#6fae44" />
+            <rect x="7" y="8" width="1" height="4" fill="#6e4a2c" />
+            <rect x="5" y="5" width="5" height="3" fill="#3f7d2c" />
+            <rect x="6" y="4" width="3" height="1" fill="#3f7d2c" />
+            <rect x="0" y="16" width="16" height="4" fill="#8a5a3b" />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Adventure</div>
+            <h3>The Overworld</h3>
+            <p>Home. Until night falls.</p>
+          </div>
+        </a>
+
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#3a0f0d" />
+            <rect x="0" y="0" width="16" height="3" fill="#4d1512" />
+            <rect x="2" y="0" width="2" height="9" fill="#ff7a1a" />
+            <rect x="2" y="0" width="1" height="9" fill="#ffb23e" />
+            <rect x="11" y="0" width="2" height="6" fill="#ff7a1a" />
+            <rect x="0" y="14" width="16" height="6" fill="#5c1b16" />
+            <rect x="0" y="14" width="16" height="1" fill="#722520" />
+            <rect x="5" y="11" width="6" height="3" fill="#4d1512" />
+            <rect x="0" y="17" width="16" height="3" fill="#ff8c2a" />
+            <rect x="0" y="17" width="16" height="1" fill="#ffc251" />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Not for the flammable</div>
+            <h3>The Nether</h3>
+            <p>Bring gold. They like gold.</p>
+          </div>
+        </a>
+
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#12081f" />
+            <rect x="2" y="2" width="1" height="1" fill="#a98cd6" />
+            <rect x="13" y="3" width="1" height="1" fill="#a98cd6" />
+            <rect x="7" y="1" width="1" height="1" fill="#7a5aa8" />
+            <rect x="3" y="13" width="10" height="4" fill="#e8e6b0" />
+            <rect x="3" y="13" width="10" height="1" fill="#f4f2c8" />
+            <rect x="5" y="17" width="6" height="2" fill="#cfcb96" />
+            <rect x="7" y="6" width="2" height="7" fill="#1a1a24" />
+            <rect x="7" y="4" width="2" height="2" fill="#e05ad4" />
+            <rect x="7" y="4" width="1" height="1" fill="#ff9af4" />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Boss fight</div>
+            <h3>The End</h3>
+            <p>The dragon is waiting. It has been a while.</p>
+          </div>
+        </a>
+
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#04141a" />
+            <rect x="0" y="15" width="16" height="5" fill="#062028" />
+            <rect x="2" y="16" width="2" height="1" fill="#0aa8a0" />
+            <rect x="9" y="17" width="3" height="1" fill="#0aa8a0" />
+            <rect x="5" y="15" width="1" height="1" fill="#15e0d0" />
+            <rect x="13" y="15" width="1" height="1" fill="#15e0d0" />
+            <rect x="3" y="6" width="1" height="1" fill="#15e0d0" />
+            <rect x="12" y="8" width="1" height="1" fill="#0aa8a0" />
+            <rect x="6" y="9" width="1" height="2" fill="#3ddcff" />
+            <rect x="9" y="9" width="1" height="2" fill="#3ddcff" />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Thriller</div>
+            <h3>The Deep Dark</h3>
+            <p>Sneak. Whatever you do, sneak.</p>
+          </div>
+        </a>
+
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#f6c9e0" />
+            <rect x="1" y="2" width="3" height="1" fill="#fff" opacity="0.8" />
+            <rect x="0" y="13" width="16" height="7" fill="#8ecf57" />
+            <rect x="0" y="13" width="16" height="1" fill="#a3dd6e" />
+            <rect x="7" y="8" width="2" height="5" fill="#6e4a2c" />
+            <rect x="4" y="4" width="8" height="4" fill="#f090c8" />
+            <rect x="5" y="3" width="6" height="1" fill="#f8aed8" />
+            <rect x="6" y="8" width="4" height="1" fill="#e070b4" />
+            <rect x="3" y="14" width="1" height="1" fill="#f090c8" />
+            <rect x="12" y="15" width="1" height="1" fill="#f090c8" />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Feel-good</div>
+            <h3>Cherry Grove</h3>
+            <p>Pink trees. Zero monsters at brunch.</p>
+          </div>
+        </a>
+
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#0b3a6b" />
+            <rect x="0" y="0" width="16" height="2" fill="#12518f" />
+            <rect x="4" y="8" width="8" height="8" fill="#2f7d74" />
+            <rect x="5" y="6" width="6" height="2" fill="#2f7d74" />
+            <rect x="6" y="10" width="1" height="2" fill="#0d4a42" />
+            <rect x="9" y="10" width="1" height="2" fill="#0d4a42" />
+            <rect x="7" y="13" width="2" height="3" fill="#0d4a42" />
+            <rect
+              x="2"
+              y="4"
+              width="1"
+              height="1"
+              fill="#8ad4ff"
+              opacity="0.7"
+            />
+            <rect
+              x="13"
+              y="6"
+              width="1"
+              height="1"
+              fill="#8ad4ff"
+              opacity="0.7"
+            />
+            <rect
+              x="3"
+              y="12"
+              width="1"
+              height="1"
+              fill="#8ad4ff"
+              opacity="0.5"
+            />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Heist</div>
+            <h3>Ocean Monument</h3>
+            <p>The guardians would prefer you didn&rsquo;t.</p>
+          </div>
+        </a>
+
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#8fd0f0" />
+            <rect x="11" y="2" width="2" height="2" fill="#ffdf6b" />
+            <rect x="0" y="12" width="16" height="8" fill="#e8d49a" />
+            <rect x="0" y="12" width="16" height="1" fill="#f2e2b0" />
+            <rect x="4" y="8" width="8" height="4" fill="#d9b96a" />
+            <rect x="6" y="6" width="4" height="2" fill="#d9b96a" />
+            <rect x="7" y="9" width="2" height="3" fill="#5c4a1e" />
+            <rect x="2" y="8" width="1" height="4" fill="#3f8f3f" />
+            <rect x="1" y="9" width="1" height="1" fill="#3f8f3f" />
+            <rect x="3" y="10" width="1" height="1" fill="#3f8f3f" />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Archaeology</div>
+            <h3>Desert Temple</h3>
+            <p>Four chests. One pressure plate. Choose wisely.</p>
+          </div>
+        </a>
+
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#bfe3f5" />
+            <rect x="0" y="14" width="16" height="6" fill="#eef7fc" />
+            <rect x="2" y="6" width="2" height="8" fill="#a8d8f0" />
+            <rect x="2" y="4" width="1" height="2" fill="#a8d8f0" />
+            <rect x="7" y="3" width="3" height="11" fill="#8ec8e8" />
+            <rect x="8" y="1" width="1" height="2" fill="#8ec8e8" />
+            <rect x="12" y="8" width="2" height="6" fill="#a8d8f0" />
+            <rect x="7" y="3" width="1" height="11" fill="#c8e8f8" />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Expedition</div>
+            <h3>Ice Spikes</h3>
+            <p>Beautiful. Slippery. Mostly slippery.</p>
+          </div>
+        </a>
+
+        <a class="world-card" href="#">
+          <svg
+            viewBox="0 0 16 20"
+            preserveAspectRatio="xMidYMid slice"
+            shape-rendering="crispEdges"
+            aria-hidden="true"
+          >
+            <rect width="16" height="20" fill="#9fb8d8" />
+            <rect x="0" y="13" width="16" height="7" fill="#8f7b8f" />
+            <rect x="0" y="13" width="16" height="1" fill="#a38ba3" />
+            <rect x="7" y="8" width="2" height="5" fill="#e8e0d0" />
+            <rect x="4" y="5" width="8" height="3" fill="#c23a3a" />
+            <rect x="5" y="4" width="6" height="1" fill="#d24a4a" />
+            <rect x="5" y="5" width="2" height="1" fill="#f0e8e0" />
+            <rect x="9" y="6" width="2" height="1" fill="#f0e8e0" />
+            <rect x="2" y="14" width="2" height="1" fill="#7a687a" />
+          </svg>
+          <div class="meta">
+            <div class="eyebrow">Weird and proud</div>
+            <h3>Mushroom Fields</h3>
+            <p>The cows are mushrooms. Ask no further questions.</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="shelf-controls reveal">
+        <button
+          class="arrow"
+          data-prev="world-track"
+          aria-label="Previous worlds"
+        >
+          &#8249;
+        </button>
+        <div
+          class="dots"
+          id="world-dots"
+          role="tablist"
+          aria-label="Carousel pagination"
+        ></div>
+        <button class="arrow" data-next="world-track" aria-label="Next worlds">
+          &#8250;
+        </button>
+      </div>
+    </section>
+
+    <!-- ---------- Shelf 2: ways to play ---------- -->
+    <section class="shelf light on-light">
+      <div class="shelf-head reveal">
+        <div>
+          <h2>Play it your way.</h2>
+          <p>One game. A thousand hobbies inside it.</p>
+        </div>
+      </div>
+
+      <div
+        class="track reveal"
+        id="play-track"
+        tabindex="0"
+        aria-label="Ways to play carousel"
+      >
+        <div class="masonry-group">
+        <a
+          class="play-card large"
+          href="#"
+          style="background: linear-gradient(135deg, #1a1030, #3d2578)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 6 6"
+            width="30"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="2" y="0" width="2" height="2" fill="#e05ad4" />
+            <rect x="2" y="2" width="2" height="4" fill="#1a1a24" />
+            <rect x="1" y="5" width="4" height="1" fill="#0f0f16" />
+          </svg>
+          <div class="eyebrow" style="color: #b79aff">Play now</div>
+          <h3 style="color: #fff">Speedrun the dragon</h3>
+          <p style="color: #cbb8ff">
+            World record: faster than your coffee order.
+          </p>
+        </a>
+
+        <a
+          class="play-card small"
+          href="#"
+          style="background: linear-gradient(135deg, #7db8e8, #b8d8f0)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 6 6"
+            width="30"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="1" y="1" width="4" height="2" fill="#7cbd4b" />
+            <rect x="1" y="3" width="4" height="2" fill="#8a5a3b" />
+          </svg>
+          <div class="eyebrow" style="color: #1d5d8f">Play now</div>
+          <h3 style="color: #0d2a40">Skyblock</h3>
+          <p style="color: #2a5a80">One island. One tree. Infinite patience.</p>
+        </a>
+
+        <a
+          class="play-card small"
+          href="#"
+          style="background: linear-gradient(135deg, #d43a3a, #f0762a)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 6 6"
+            width="30"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="0" y="2" width="6" height="2" fill="#fff" />
+            <rect x="0" y="4" width="6" height="1" fill="#c23a3a" />
+            <rect x="1" y="1" width="1" height="1" fill="#ffd166" />
+          </svg>
+          <div class="eyebrow" style="color: #ffe0b8">Play now</div>
+          <h3 style="color: #fff">Bed Wars</h3>
+          <p style="color: #ffd9c2">Protect the bed. Nothing else matters.</p>
+        </a>
+        </div>
+        <div class="masonry-group">
+        <a
+          class="play-card large"
+          href="#"
+          style="background: linear-gradient(135deg, #2a7a4f, #4fb87a)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 7 6"
+            width="34"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="0" y="4" width="2" height="1" fill="#e8e6b0" />
+            <rect x="3" y="2" width="2" height="1" fill="#e8e6b0" />
+            <rect x="5" y="0" width="2" height="1" fill="#e8e6b0" />
+          </svg>
+          <div class="eyebrow" style="color: #c8f0d8">Play now</div>
+          <h3 style="color: #fff">Parkour</h3>
+          <p style="color: #d8f5e4">Jump. Miss. Respawn. Repeat.</p>
+        </a>
+
+        <a
+          class="play-card small"
+          href="#"
+          style="background: linear-gradient(135deg, #e8a018, #f5c542)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 6 6"
+            width="30"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="1" y="3" width="4" height="3" fill="#8a5a3b" />
+            <rect x="2" y="1" width="2" height="2" fill="#c23a3a" />
+            <rect x="0" y="5" width="6" height="1" fill="#6e4527" />
+          </svg>
+          <div class="eyebrow" style="color: #7a5208">Build now</div>
+          <h3 style="color: #3d2a04">Build battles</h3>
+          <p style="color: #6b4a08">Five minutes. One theme. No mercy.</p>
+        </a>
+
+        <a
+          class="play-card small"
+          href="#"
+          style="background: linear-gradient(135deg, #8f2020, #c23a3a)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 6 6"
+            width="30"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="0" y="1" width="2" height="2" fill="#ff5a5a" />
+            <rect x="4" y="1" width="2" height="2" fill="#ff5a5a" />
+            <rect x="1" y="2" width="4" height="2" fill="#e01313" />
+            <rect x="2" y="4" width="2" height="1" fill="#a80b0b" />
+          </svg>
+          <div class="eyebrow" style="color: #ffb8b8">Survive now</div>
+          <h3 style="color: #fff">100 days of Hardcore</h3>
+          <p style="color: #ffd0d0">
+            Day 1: build a house. Day 47: become a legend.
+          </p>
+        </a>
+        </div>
+        <div class="masonry-group">
+        <a
+          class="play-card large"
+          href="#"
+          style="background: linear-gradient(135deg, #5c2020, #8f3a1a)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 6 6"
+            width="30"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="0" y="2" width="6" height="1" fill="#ff3a1a" />
+            <rect x="2" y="0" width="1" height="2" fill="#6b4a2b" />
+            <rect x="2" y="0" width="1" height="1" fill="#ff7a45" />
+          </svg>
+          <div class="eyebrow" style="color: #ffb89a">Engineer now</div>
+          <h3 style="color: #fff">Redstone computers</h3>
+          <p style="color: #ffcdb8">
+            Someone built a calculator. Then a working phone.
+          </p>
+        </a>
+
+        <a
+          class="play-card small"
+          href="#"
+          style="background: linear-gradient(135deg, #1d4d8f, #3a7ac2)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 6 6"
+            width="30"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="0" y="0" width="2" height="2" fill="#7cbd4b" />
+            <rect x="2" y="2" width="2" height="2" fill="#e8b83a" />
+            <rect x="4" y="4" width="2" height="2" fill="#d45a9a" />
+          </svg>
+          <div class="eyebrow" style="color: #b8d8f8">Create now</div>
+          <h3 style="color: #fff">Pixel art</h3>
+          <p style="color: #cde4fa">
+            A map wall of your cat, one block at a time.
+          </p>
+        </a>
+
+        <a
+          class="play-card small"
+          href="#"
+          style="background: linear-gradient(135deg, #4a7a1d, #7cbd4b)"
+        >
+          <svg
+            class="pixel-icon"
+            viewBox="0 0 6 6"
+            width="30"
+            height="30"
+            shape-rendering="crispEdges"
+          >
+            <rect x="0" y="4" width="6" height="2" fill="#8a5a3b" />
+            <rect x="1" y="2" width="1" height="2" fill="#e8c93a" />
+            <rect x="3" y="1" width="1" height="3" fill="#e8c93a" />
+            <rect x="5" y="3" width="1" height="1" fill="#e8c93a" />
+          </svg>
+          <div class="eyebrow" style="color: #e0f5c8">Relax now</div>
+          <h3 style="color: #fff">Farming</h3>
+          <p style="color: #e4f5d4">
+            Weirdly relaxing. Suspiciously profitable.
+          </p>
+        </a>
+        </div>
+      </div>
+
+      <div class="shelf-controls reveal">
+        <button class="arrow" data-prev="play-track" aria-label="Previous">
+          &#8249;
+        </button>
+        <div class="dots" id="play-dots" role="tablist" aria-label="Carousel pagination"></div>
+        <button class="arrow" data-next="play-track" aria-label="Next">
+          &#8250;
+        </button>
+      </div>
+    </section>
+
+    <!-- ---------- Closer ---------- -->
+    <section class="tile light" id="support">
+      <div class="tile-inner reveal" style="padding-bottom: 90px">
+        <h2 class="headline">Still the same game.<br />Never the same game.</h2>
+        <p class="subhead muted">
+          Free updates since 2010. That&rsquo;s not a subscription. That&rsquo;s
+          a promise.<sup>5</sup>
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="#buy">Buy Minecraft</a>
+          <a class="link" href="#">Compare editions</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footnotes">
+          <p>1. Requires Java. The coffee is optional.</p>
+          <p>
+            2. Redstone circuits are Turing-complete. Your homework is not an
+            acceptable use case. Actually, it is.
+          </p>
+          <p>
+            3. Mod count based on community repositories as of July 2026. Limits
+            may apply to your free time.
+          </p>
+          <p>
+            4. TNT depicted detonates responsibly. No pixels were permanently
+            harmed.
+          </p>
+          <p>5. Herobrine has been removed.</p>
+        </div>
+        <div class="footer-cols">
+          <div>
+            <h4>Explore</h4>
+            <ul>
+              <li><a href="#overview">Overview</a></li>
+              <li><a href="#redstone">Redstone</a></li>
+              <li><a href="#worlds">Worlds</a></li>
+              <li><a href="#multiplayer">Multiplayer</a></li>
+              <li><a href="#snapshots">Snapshots</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Account</h4>
+            <ul>
+              <li><a href="#">Manage your profile</a></li>
+              <li><a href="#skins">Change your skin</a></li>
+              <li><a href="#">Redeem a code</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>For Creators</h4>
+            <ul>
+              <li><a href="#mods">Mods</a></li>
+              <li><a href="#">Server hosting</a></li>
+              <li><a href="#">Usage guidelines</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>About</h4>
+            <ul>
+              <li><a href="#">Mojang Studios</a></li>
+              <li><a href="#support">Support</a></li>
+              <li><a href="#">Community standards</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-legal">
+          <span
+            >Fan-made concept page. Not affiliated with Mojang, Microsoft, or
+            Apple.</span
+          >
+          <span>United States</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        "use strict";
+        const reduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        /* ============ Pixel-map cube textures ============ */
+        // Each texture: map = 8 rows of 8 chars, key = char -> color or [colors] (noise).
+        const noiseRow = (c) => c.repeat(8);
+        const N8 = (c) => Array(8).fill(noiseRow(c));
+
+        const GRASS_TOP = ["#7cbd4b", "#8ecf57", "#6fae44", "#83c450"];
+        const DIRT = ["#9c6b45", "#8a5a3b", "#7a4f33", "#916140"];
+        const DIRT_DK = ["#7d5636", "#6e482c", "#624026", "#744e31"];
+        const FRINGE = ["#6fae44", "#7cbd4b", "#639c3c"];
+
+        const grassSide = (shades) => ({
+          map: ["GGGGGGGG", "gDDGgDDG", ...Array(6).fill("DDDDDDDD")],
+          key: { G: FRINGE, g: FRINGE, D: shades },
+        });
+
+        const lampMap = [
+          "AAAAAAAA",
+          "ABBCCBBA",
+          "ABCDDCBA",
+          "ACDDDDCA",
+          "ACDDDDCA",
+          "ABCDDCBA",
+          "ABBCCBBA",
+          "AAAAAAAA",
+        ];
+
+        const TEXTURES = {
+          grass: {
+            top: { map: N8("T"), key: { T: GRASS_TOP } },
+            bottom: { map: N8("D"), key: { D: DIRT } },
+            front: grassSide(DIRT),
+            back: grassSide(DIRT),
+            left: grassSide(DIRT_DK),
+            right: grassSide(DIRT_DK),
+          },
+          lamp: {
+            all: {
+              map: lampMap,
+              key: { A: "#2e1d10", B: "#4a2f18", C: "#6e451f", D: "#8a5726" },
+              keyOn: { A: "#5a3a16", B: "#c27a1e", C: "#f5a623", D: "#ffd166" },
+            },
+          },
+          tnt: {
+            top: {
+              map: [
+                "RRdGRRdG",
+                "RRdGRRdG",
+                "dddddddd",
+                "GGdXXdGG",
+                "GGdXXdGG",
+                "dddddddd",
+                "RRdGRRdG",
+                "RRdGRRdG",
+              ],
+              key: {
+                R: "#DB4A2C",
+                d: "#8E8E8E",
+                G: "#B83020",
+                X: "#2E2E2E",
+              },
+            },
+            bottom: {
+              map: [
+                "RRdGRRdG",
+                "RRdGRRdG",
+                "dddddddd",
+                "GGdGGdGG",
+                "GGdGGdGG",
+                "dddddddd",
+                "RRdGRRdG",
+                "RRdGRRdG",
+              ],
+              key: {
+                R: "#DB4A2C",
+                d: "#8E8E8E",
+                G: "#B83020",
+              },
+            },
+            side: {
+              map: [
+                "RRddRRdd",
+                "RRddRRdd",
+                "RRddRRdd",
+                "GGGGGGGG",
+                "GGGGGGGG",
+                "RRddRRdd",
+                "RRddRRdd",
+                "RRddRRdd",
+              ],
+              key: { R: "#DB4A2C", d: "#8E1E0E", G: "#C0C0C0" },
+            },
+          },
+          steve: {
+            front: {
+              map: [
+                "HHHHHHHH",
+                "HHHHHHHH",
+                "HSSSSSSH",
+                "SWPSSPWS",
+                "SSSNNSSS",
+                "SSNNNNSS",
+                "SSMMMMSS",
+                "SSSSSSSS",
+              ],
+              key: {
+                H: ["#3b2a17", "#2e1f0e", "#453218"],
+                S: ["#b07a52", "#a8714a", "#b8805a"],
+                W: "#ffffff",
+                P: "#3d2fa8",
+                N: ["#8a5a3b", "#7d4f33"],
+                M: "#5e3a24",
+              },
+            },
+            top: {
+              map: N8("H"),
+              key: { H: ["#3b2a17", "#2e1f0e", "#453218", "#332310"] },
+            },
+            bottom: { map: N8("S"), key: { S: ["#b07a52", "#a8714a"] } },
+            side: {
+              map: [
+                "HHHHHHHH",
+                "HHHHHHHH",
+                "HHHHHHHH",
+                "SSSSSSSS",
+                "SSSSSSSS",
+                "SSSSSSSS",
+                "SSSSSSSS",
+                "SSSSSSSS",
+              ],
+              key: {
+                H: ["#3b2a17", "#2e1f0e", "#453218"],
+                S: ["#b07a52", "#a8714a", "#b8805a"],
+              },
+            },
+          },
+          amethyst: {
+            all: {
+              map: N8("A"),
+              key: { A: ["#9a6dd4", "#8557c2", "#ab82e0", "#7a4cb5"] },
+            },
+          },
+          gold: {
+            all: {
+              map: N8("G"),
+              key: { G: ["#f5c542", "#e8b52e", "#fad55e", "#dba824"] },
+            },
+          },
+        };
+
+        function faceSpec(tex, face) {
+          if (tex.all) return tex.all;
+          if (tex[face]) return tex[face];
+          return tex.side; // left/right/back fall through to a generic side
+        }
+
+        function pick(val, i, row) {
+          if (Array.isArray(val))
+            return val[(i * 7 + row * 13 + 5) % val.length];
+          return val;
+        }
+
+        function buildCube(el) {
+          const tex = TEXTURES[el.dataset.cube];
+          if (!tex) return;
+          ["front", "back", "left", "right", "top", "bottom"].forEach(
+            (face) => {
+              const f = document.createElement("div");
+              f.className = "face f-" + face;
+              const spec = faceSpec(tex, face);
+              for (let i = 0; i < 64; i++) {
+                const row = Math.floor(i / 8);
+                const ch = spec.map[row][i % 8];
+                const cell = document.createElement("div");
+                cell.style.setProperty("--off", pick(spec.key[ch], i, row));
+                if (spec.keyOn)
+                  cell.style.setProperty("--on", pick(spec.keyOn[ch], i, row));
+                f.appendChild(cell);
+              }
+              el.appendChild(f);
+            },
+          );
+          // TNT label band on the four side faces
+          if (el.dataset.cube === "tnt") {
+            el.querySelectorAll(".f-front, .f-back, .f-left, .f-right").forEach(
+              (f) => {
+                const label = document.createElement("span");
+                label.className = "tnt-label";
+                label.textContent = "TNT";
+                f.appendChild(label);
+              },
+            );
+          }
+          applyRotation(el);
+        }
+
+        function applyRotation(el) {
+          el.style.transform =
+            "rotateX(" +
+            (el.dataset.rx || -25) +
+            "deg) rotateY(" +
+            (el.dataset.ry || -45) +
+            "deg)";
+        }
+
+        document.querySelectorAll("[data-cube]").forEach(buildCube);
+
+        /* ============ Drag to rotate ============ */
+        document.querySelectorAll("[data-drag]").forEach((stage) => {
+          const cubes = stage.querySelectorAll(".cube");
+          if (!cubes.length) return;
+          let startX = 0,
+            startY = 0,
+            baseR = [],
+            dragging = false,
+            moved = false;
+
+          stage.addEventListener("pointerdown", (e) => {
+            dragging = true;
+            moved = false;
+            startX = e.clientX;
+            startY = e.clientY;
+            baseR = [...cubes].map((c) => [
+              parseFloat(c.dataset.rx),
+              parseFloat(c.dataset.ry),
+            ]);
+            stage.classList.add("grabbing");
+            stage.setPointerCapture(e.pointerId);
+          });
+          stage.addEventListener("pointermove", (e) => {
+            if (!dragging) return;
+            const dx = e.clientX - startX,
+              dy = e.clientY - startY;
+            if (Math.abs(dx) + Math.abs(dy) > 6) moved = true;
+            cubes.forEach((c, i) => {
+              c.dataset.ry = baseR[i][1] + dx * 0.55;
+              c.dataset.rx = Math.max(
+                -88,
+                Math.min(88, baseR[i][0] - dy * 0.55),
+              );
+              applyRotation(c);
+            });
+          });
+          const end = () => {
+            dragging = false;
+            stage.classList.remove("grabbing");
+          };
+          stage.addEventListener("pointerup", end);
+          stage.addEventListener("pointercancel", end);
+          stage.addEventListener(
+            "click",
+            (e) => {
+              if (moved) e.stopImmediatePropagation();
+            },
+            true,
+          );
+        });
+
+        /* ============ Redstone lamp toggle ============ */
+        const lamp = document.getElementById("lamp");
+        if (lamp) {
+          const toggle = () => {
+            lamp.classList.toggle("lit");
+            lamp.setAttribute("aria-pressed", lamp.classList.contains("lit"));
+          };
+          lamp.closest(".stage").addEventListener("click", toggle);
+          lamp.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggle();
+            }
+          });
+        }
+
+        /* ============ TNT detonation ============ */
+        const tnt = document.getElementById("tnt-cube");
+        if (tnt) {
+          const stage = tnt.closest(".stage");
+          const bobber = document.getElementById("tnt-bobber");
+          const flash = document.getElementById("tnt-flash");
+          const COLORS = [
+            "#d63a2a",
+            "#b82c1e",
+            "#f2ede2",
+            "#c9a06a",
+            "#8a4a1a",
+            "#3a3a3a",
+          ];
+          let busy = false;
+
+          const detonate = () => {
+            if (busy) return;
+            busy = true;
+            if (reduced) {
+              // Quiet version: quick fade out and back.
+              bobber.style.opacity = "0";
+              setTimeout(() => {
+                bobber.style.opacity = "1";
+                busy = false;
+              }, 500);
+              return;
+            }
+            // Fuse: three white pulses
+            tnt.animate(
+              [
+                { filter: "brightness(1)" },
+                { filter: "brightness(2.6)" },
+                { filter: "brightness(1)" },
+                { filter: "brightness(2.6)" },
+                { filter: "brightness(1)" },
+                { filter: "brightness(3)" },
+              ],
+              { duration: 850, easing: "linear" },
+            ).onfinish = () => {
+              bobber.style.visibility = "hidden";
+              flash.animate([{ opacity: 0.9 }, { opacity: 0 }], {
+                duration: 420,
+                easing: "ease-out",
+              });
+              const rect = stage.getBoundingClientRect();
+              const cx = rect.width / 2,
+                cy = rect.height / 2;
+              for (let i = 0; i < 40; i++) {
+                const p = document.createElement("div");
+                p.className = "particle";
+                const s = 8 + Math.random() * 14;
+                p.style.width = p.style.height = s + "px";
+                p.style.background =
+                  COLORS[Math.floor(Math.random() * COLORS.length)];
+                p.style.left = cx + "px";
+                p.style.top = cy + "px";
+                stage.appendChild(p);
+                const ang = Math.random() * Math.PI * 2;
+                const dist = 90 + Math.random() * 240;
+                p.animate(
+                  [
+                    {
+                      transform: "translate(-50%,-50%) rotate(0deg)",
+                      opacity: 1,
+                    },
+                    {
+                      transform:
+                        "translate(calc(-50% + " +
+                        Math.cos(ang) * dist +
+                        "px), calc(-50% + " +
+                        (Math.sin(ang) * dist - 60 + Math.random() * 120) +
+                        "px)) rotate(" +
+                        (Math.random() * 720 - 360) +
+                        "deg)",
+                      opacity: 0,
+                    },
+                  ],
+                  {
+                    duration: 800 + Math.random() * 400,
+                    easing: "cubic-bezier(.1,.75,.4,1)",
+                  },
+                ).onfinish = () => p.remove();
+              }
+              setTimeout(() => {
+                bobber.style.visibility = "visible";
+                tnt.animate(
+                  [
+                    {
+                      transform: tnt.style.transform + " scale(0.4)",
+                      opacity: 0,
+                    },
+                    {
+                      transform: tnt.style.transform + " scale(1)",
+                      opacity: 1,
+                    },
+                  ],
+                  { duration: 550, easing: "cubic-bezier(.34,1.56,.64,1)" },
+                );
+                busy = false;
+              }, 1150);
+            };
+          };
+          stage.addEventListener("click", detonate);
+          tnt.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              detonate();
+            }
+          });
+        }
+
+        /* ============ Carousels ============ */
+        function setupShelf(trackId, dotsId) {
+          const track = document.getElementById(trackId);
+          if (!track) return;
+          const slides = [...track.children];
+          const dots = dotsId ? document.getElementById(dotsId) : null;
+
+          const step = () =>
+            slides.length > 1
+              ? slides[1].offsetLeft - slides[0].offsetLeft
+              : track.clientWidth;
+
+          if (dots) {
+            slides.forEach((_, i) => {
+              const d = document.createElement("button");
+              d.className = "dot" + (i === 0 ? " active" : "");
+              d.setAttribute("role", "tab");
+              d.setAttribute("aria-label", "Go to item " + (i + 1));
+              d.addEventListener("click", () =>
+                track.scrollTo({
+                  left: i * step(),
+                  behavior: reduced ? "auto" : "smooth",
+                }),
+              );
+              dots.appendChild(d);
+            });
+            let raf = null;
+            track.addEventListener("scroll", () => {
+              if (raf) return;
+              raf = requestAnimationFrame(() => {
+                raf = null;
+                const idx = Math.min(
+                  slides.length - 1,
+                  Math.max(0, Math.round(track.scrollLeft / step())),
+                );
+                dots
+                  .querySelectorAll(".dot")
+                  .forEach((d, i) => d.classList.toggle("active", i === idx));
+              });
+            });
+          }
+
+          document
+            .querySelectorAll(
+              "[data-prev='" + trackId + "'],[data-next='" + trackId + "']",
+            )
+            .forEach((btn) => {
+              btn.addEventListener("click", () => {
+                const dir = btn.hasAttribute("data-next") ? 1 : -1;
+                track.scrollBy({
+                  left: dir * step(),
+                  behavior: reduced ? "auto" : "smooth",
+                });
+              });
+            });
+        }
+        setupShelf("world-track", "world-dots");
+        setupShelf("play-track", "play-dots");
+
+        /* ============ Scroll reveal ============ */
+        if (!reduced) {
+          const io = new IntersectionObserver(
+            (entries) =>
+              entries.forEach((e) => {
+                if (e.isIntersecting) {
+                  e.target.classList.add("in");
+                  io.unobserve(e.target);
+                }
+              }),
+            { threshold: 0.12 },
+          );
+          document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+        } else {
+          document
+            .querySelectorAll(".reveal")
+            .forEach((el) => el.classList.add("in"));
+        }
+      })();
+    </script>
+  </body>
+</html>
